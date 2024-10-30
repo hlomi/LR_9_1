@@ -1,0 +1,54 @@
+def Open(file_name, mode):
+    try:
+        file = open(file_name, mode)
+    except:
+        print("File", file_name, "Неможливо відкрити!")
+        return None
+    else:
+        print("File", file_name, "Успішно відкритий")
+        return file
+    # створює текстовий файл TF8_1 із символьних рядків різної довжини
+file1_name = "TF8_1.txt"
+file_1_w = Open(file1_name, "w")
+if(file_1_w != None):
+    file_1_w.write ("The first day of 1877 autumn brings a cool breeze and the scent of falling leaves")
+    print ("Інформація була успішно додана до TF8_1.txt!")
+    file_1_w.close();
+    print ('\n'"Файл TF8_1 успішно закритий")
+
+    #читає вміст файла TF8_1, пропускає цифри і формує рядки по 10 символів (останній рядок може бути неповним), 
+    #вставляє перед кожним рядком порядковий номер (номер займає п’ять позицій і відділяється від тексту пробілом)
+    # і записує їх у файл TF8_2
+file2_name = "TF8_2.txt"
+file_2_r = Open(file1_name, "r")
+file_2_w = Open(file2_name, "w") 
+
+
+if file_2_r != None or file_2_w != None:
+
+    content = file_2_r.read()
+
+    content_no_digits = ''.join([char for char in content if not char.isdigit()])
+
+    content_letters_only = ''.join([char for char in content_no_digits if char.isalpha() or char.isspace()])
+
+    line_number = 1     
+    for i, start in enumerate(range(0, len(content_letters_only), 10), 1):
+        line = content_letters_only[start:start+10]
+        formated_line = f"{line_number:5} {line}\n"
+        file_2_w.write(formated_line)
+        line_number += 1
+    file_2_r.close()
+    file_2_w.close()
+    print('\n'"Файл TF8_2, успішно виправлений, інші файли закриті!")
+
+# читає вміст файла TF8_2 і друкує його по рядках.
+
+print('\n'"Нові виправлення:")
+file_3_r = Open(file2_name, "r")
+print('\n'"Виведення TF8_2 на екран:")
+if file_3_r is not None:
+    for line in file_3_r:
+        print(line.strip())  
+    file_3_r.close()
+    print('\n'"Файл TF8_2 був закритий!")
